@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Simple LLM Cost Dashboard</title>
+    <link rel="stylesheet" href="./dashboard.css" />
+  </head>
+  <body>
+    <main class="app">
+      <header>
+        <h1>Daily AI API Cost Checker</h1>
+        <p>Pick your model, enter token usage, and instantly see what you spend per request/day/month.</p>
+      </header>
+
+      <section class="card">
+        <h2>Model Source</h2>
+        <div class="row">
+          <div class="field grow">
+            <label for="apiKey">OpenRouter API key</label>
+            <input id="apiKey" type="password" placeholder="sk-or-v1-..." />
+          </div>
+          <button id="loadModelsButton" type="button">Load Models</button>
+        </div>
+        <div class="row">
+          <div class="field grow">
+            <label for="modelSearch">Search model</label>
+            <input id="modelSearch" type="text" placeholder="e.g. gpt-4, claude, mistral" />
+          </div>
+          <div class="field grow">
+            <label for="model">Model</label>
+            <select id="model"></select>
+          </div>
+        </div>
+        <p id="modelMeta" class="muted"></p>
+        <p id="modelError" class="error"></p>
+        <details class="advanced">
+          <summary>Show technical model details</summary>
+          <div id="modelDetails" class="details"></div>
+        </details>
+      </section>
+
+      <section class="card">
+        <h2>Your Usage</h2>
+        <div class="row">
+          <div class="field grow">
+            <label for="usagePreset">Usage preset</label>
+            <select id="usagePreset">
+              <option value="">Custom</option>
+              <option value="basic-chat">Basic Chat</option>
+              <option value="chat-with-history">Chat w/ History</option>
+              <option value="study-mode">Study Mode</option>
+              <option value="copywriting">Copywriting</option>
+              <option value="coding-help">Coding Help</option>
+              <option value="heavy-coding-agents">Heavy Coding / Agents</option>
+              <option value="research-deep-tasks">Research / Deep Tasks</option>
+              <option value="automation-high-volume">Automation / High Volume</option>
+              <option value="extreme-agent-workflow">Extreme / Agent Workflow</option>
+            </select>
+          </div>
+          <button id="applyPresetButton" type="button">Apply Preset</button>
+        </div>
+        <p id="presetDescription" class="muted"></p>
+        <div class="grid">
+          <div class="field">
+            <label for="inputTokens">Input tokens</label>
+            <input id="inputTokens" type="number" min="0" step="1" value="1500" />
+          </div>
+          <div class="field">
+            <label for="outputTokens">Output tokens</label>
+            <input id="outputTokens" type="number" min="0" step="1" value="800" />
+          </div>
+          <div class="field">
+            <label for="inputCostPer1k">Input cost / MTok (1M tokens, USD)</label>
+            <input id="inputCostPer1k" type="number" min="0" step="0.000001" />
+          </div>
+          <div class="field">
+            <label for="outputCostPer1k">Output cost / MTok (1M tokens, USD)</label>
+            <input id="outputCostPer1k" type="number" min="0" step="0.000001" />
+          </div>
+          <div class="field">
+            <label for="requestsPerDay">Requests per day</label>
+            <input id="requestsPerDay" type="number" min="0" step="1" value="50" />
+          </div>
+          <div class="field">
+            <label for="usdToInrRate">USD to INR rate</label>
+            <input id="usdToInrRate" type="number" min="0" step="0.0001" value="83.5000" />
+          </div>
+        </div>
+
+        <div class="totals">
+          <div class="metric"><span>Input cost / request</span><strong id="inputCostValue">$0.000000</strong></div>
+          <div class="metric"><span>Output cost / request</span><strong id="outputCostValue">$0.000000</strong></div>
+          <div class="metric"><span>Total cost / request</span><strong id="totalCostValue">$0.000000</strong></div>
+          <div class="metric"><span>Estimated daily cost</span><strong id="dailyCostValue">$0.000000</strong></div>
+          <div class="metric"><span>Estimated monthly cost (30d)</span><strong id="monthlyCostValue">$0.000000</strong></div>
+          <div class="metric"><span>Input cost / request (INR)</span><strong id="inputCostInrValue">₹0.00</strong></div>
+          <div class="metric"><span>Output cost / request (INR)</span><strong id="outputCostInrValue">₹0.00</strong></div>
+          <div class="metric"><span>Total cost / request (INR)</span><strong id="totalCostInrValue">₹0.00</strong></div>
+          <div class="metric"><span>Estimated daily cost (INR)</span><strong id="dailyCostInrValue">₹0.00</strong></div>
+          <div class="metric"><span>Estimated monthly cost (INR)</span><strong id="monthlyCostInrValue">₹0.00</strong></div>
+        </div>
+
+        <p id="calcError" class="error"></p>
+      </section>
+    </main>
+
+    <script type="module" src="./dashboard.js"></script>
+  </body>
+</html>
